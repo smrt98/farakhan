@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>فراخوان همراهی – سمانه حسینی</title>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink:       #0d1b2e;
+      --cream:     #eef3fa;
+      --gold:      #2a6fc4;
+      --gold-lt:   #5b9ee1;
+      --rose:      #1a4d8f;
+      --sage:      #4a7ab5;
+      --mist:      #d0dff0;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Vazirmatn', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── grain overlay ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0;
+      opacity: .6;
+    }
+
+    /* ── page wrapper ── */
+    .page {
+      position: relative; z-index: 1;
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 60px 24px 80px;
+    }
+
+    /* ── decorative top rule ── */
+    .top-ornament {
+      display: flex; align-items: center; gap: 12px;
+      justify-content: center;
+      margin-bottom: 48px;
+      opacity: 0;
+      animation: fadeUp .9s .1s forwards;
+    }
+    .top-ornament .line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+    .top-ornament .diamond {
+      width: 10px; height: 10px;
+      background: var(--gold);
+      transform: rotate(45deg);
+      flex-shrink: 0;
+    }
+
+    /* ── header ── */
+    header {
+      text-align: center;
+      margin-bottom: 52px;
+      opacity: 0;
+      animation: fadeUp .9s .25s forwards;
+    }
+    .subtitle-label {
+      font-size: .72rem;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--rose);
+      margin-bottom: 14px;
+    }
+    h1 {
+      font-size: clamp(2rem, 6vw, 3.2rem);
+      font-weight: 700;
+      line-height: 1.25;
+      color: var(--ink);
+      position: relative;
+      display: inline-block;
+    }
+    h1 .accent { color: var(--gold); }
+    .author-tag {
+      margin-top: 18px;
+      font-size: .85rem;
+      color: var(--sage);
+      letter-spacing: .06em;
+    }
+    .author-tag strong { color: var(--rose); font-weight: 600; }
+
+    /* ── section card ── */
+    .card {
+      background: rgba(255,255,255,.55);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(42,111,196,.18);
+      border-radius: 2px;
+      padding: 36px 40px;
+      margin-bottom: 32px;
+      position: relative;
+      opacity: 0;
+      animation: fadeUp .8s forwards;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 4px; height: 60%;
+      background: linear-gradient(180deg, var(--gold), transparent);
+      border-radius: 0 2px 0 0;
+    }
+
+    .card:nth-child(1) { animation-delay: .4s; }
+    .card:nth-child(2) { animation-delay: .55s; }
+    .card:nth-child(3) { animation-delay: .7s; }
+    .card:nth-child(4) { animation-delay: .85s; }
+    .card:nth-child(5) { animation-delay: 1s; }
+
+    .section-label {
+      font-size: .68rem;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 14px;
+    }
+    .card p {
+      font-size: 1rem;
+      line-height: 2;
+      color: #1a2e45;
+      font-weight: 300;
+    }
+    .card p strong { font-weight: 600; color: var(--rose); }
+
+    /* ── divider ── */
+    .divider {
+      display: flex; align-items: center; gap: 10px;
+      margin: 8px 0 26px;
+    }
+    .divider span { font-size: .7rem; color: var(--gold-lt); letter-spacing: .1em; }
+    .divider .ln { flex: 1; height: 1px; background: var(--mist); }
+
+    /* ── courses grid ── */
+    .courses { display: grid; gap: 16px; }
+    .course-item {
+      display: flex; gap: 18px; align-items: flex-start;
+      padding: 18px 20px;
+      background: rgba(238,243,250,.7);
+      border: 1px solid rgba(42,111,196,.12);
+      border-radius: 2px;
+      transition: border-color .3s, transform .3s;
+    }
+    .course-item:hover { border-color: var(--gold-lt); transform: translateX(-4px); }
+    .course-num {
+      font-size: .78rem;
+      font-weight: 700;
+      color: var(--gold);
+      min-width: 28px;
+      padding-top: 2px;
+    }
+    .course-text { font-size: .93rem; line-height: 1.85; color: #1a2e45; font-weight: 300; }
+    .course-text strong { font-weight: 600; color: var(--ink); }
+
+    /* ── structure grid ── */
+    .structure-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 14px;
+      margin-top: 20px;
+    }
+    .struct-box {
+      background: rgba(42,111,196,.07);
+      border: 1px solid rgba(42,111,196,.18);
+      border-radius: 2px;
+      padding: 16px 18px;
+      text-align: center;
+    }
+    .struct-box .icon { font-size: 1.4rem; margin-bottom: 8px; }
+    .struct-box p { font-size: .82rem; line-height: 1.7; color: var(--sage); }
+    .struct-box p strong { color: var(--ink); font-weight: 600; }
+
+    /* ── closing quote ── */
+    .closing-quote {
+      text-align: center;
+      margin: 44px 0 32px;
+      padding: 36px 32px;
+      border-top: 1px solid rgba(42,111,196,.2);
+      border-bottom: 1px solid rgba(42,111,196,.2);
+      opacity: 0;
+      animation: fadeUp .8s 1.1s forwards;
+    }
+    .closing-quote blockquote {
+      font-size: 1.1rem;
+      line-height: 2.1;
+      color: var(--ink);
+      font-weight: 400;
+    }
+    .closing-quote .gold-text { color: var(--gold); font-weight: 600; }
+
+    /* ── CTA ── */
+    .cta {
+      background: var(--ink);
+      color: var(--cream);
+      border-radius: 2px;
+      padding: 40px;
+      text-align: center;
+      margin-bottom: 32px;
+      position: relative; overflow: hidden;
+      opacity: 0;
+      animation: fadeUp .8s 1.25s forwards;
+    }
+    .cta::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 60% 40%, rgba(42,111,196,.25), transparent 65%);
+    }
+    .cta h2 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 18px;
+      position: relative;
+    }
+    .cta p {
+      font-size: .95rem; line-height: 2;
+      color: rgba(238,243,250,.85);
+      max-width: 520px; margin: 0 auto;
+      position: relative;
+    }
+    .cta .cta-note {
+      margin-top: 22px;
+      display: inline-block;
+      border: 1px solid rgba(91,158,225,.5);
+      padding: 10px 28px;
+      font-size: .85rem;
+      color: var(--gold-lt);
+      letter-spacing: .06em;
+      position: relative;
+    }
+
+    /* ── footer sig ── */
+    footer {
+      text-align: center;
+      opacity: 0;
+      animation: fadeUp .8s 1.4s forwards;
+    }
+    .sig-line { width: 60px; height: 1px; background: var(--gold); margin: 0 auto 16px; }
+    footer p { font-size: .85rem; color: var(--sage); }
+    footer strong { color: var(--rose); font-weight: 600; }
+
+    /* ── animations ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── responsive ── */
+    @media (max-width: 560px) {
+      .card { padding: 26px 22px; }
+      .page { padding: 40px 16px 60px; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- top ornament -->
+  <div class="top-ornament">
+    <div class="line"></div>
+    <div class="diamond"></div>
+    <div class="line"></div>
+  </div>
+
+  <!-- header -->
+  <header>
+    <p class="subtitle-label">دعوت‌نامه اختصاصی</p>
+    <h1>فراخوان <span class="accent">همراهی</span></h1>
+    <p class="author-tag"><strong>سمانه حسینی</strong> — رواندرمانگر پویشی</p>
+  </header>
+
+  <!-- intro card -->
+  <div class="card">
+    <p class="section-label">پیش‌گفتار</p>
+    <p>
+      با احترام و سپاس از اعتنادی که سال‌ها نهال تخصص و اعتبار اینجانب را آبیاری نموده،
+      <strong>سمانه حسینی، رواندرمانگر پویشی</strong> — سال‌ها در ویزیت‌های فردی و کلاس‌های آموزشی
+      کنار لحظات خاصی از زندگی و تغییر افراد بوده‌ام که علی‌رغم رضایت و اثربخشی محتوایی و کیفی،
+      همچنان دغدغه‌مند تغییرات ریشه‌ای در نوع نگرش، سبک زندگی و فردیت افراد بوده‌ام.
+      لذا در این راستا اکنون دری تازه گشوده‌ام:
+    </p>
+  </div>
+
+  <!-- class rooh -->
+  <div class="card">
+    <p class="section-label">معرفی دوره</p>
+    <h2 style="font-size:1.4rem; font-weight:700; color:var(--gold); margin-bottom:16px;">کلاس روح</h2>
+    <p>
+      زکات علمی که باید به دیگران برسد و ادای دینی بر اعتماد همراهان همیشگی‌ام
+      و ایجاد فرصتی برای دیگرانی که محدودیت زمان اجازه‌ی خدمت‌رسانی به آن‌ها را به من نداده است.
+    </p>
+    <div class="divider"><div class="ln"></div><span>✦</span><div class="ln"></div></div>
+    <p>
+      در این مسیر، نخست روح را معرفی می‌کنیم تا آن نیروی پنهانی که تاکنون پشت هر انتخاب، هر درگیری،
+      هر سکوت و هر فریاد شما حضور داشته، بی‌آنکه بشناسیدش و بهره‌مندش باشید؛
+      سپس گره‌های مختلف در موضوعات و احوالات خاص را در ۵ گروه مجزا و سطوح تفکیک‌شده
+      با همان الفبای آموخته‌شده و زبان روح بازگشایی می‌کنیم.
+    </p>
+  </div>
+
+  <!-- courses -->
+  <div class="card">
+    <p class="section-label">گروه‌های پنج‌گانه</p>
+    <div class="courses">
+
+      <div class="course-item">
+        <span class="course-num">۱</span>
+        <p class="course-text">
+          <strong>کلاس شناخت و بهره‌مندی از روح</strong> —
+          معرفی ناهشیار در لایه‌های عمیق‌تر از آنچه شناخته‌ایم
+        </p>
+      </div>
+
+      <div class="course-item">
+        <span class="course-num">۲</span>
+        <p class="course-text">
+          <strong>دانشجویان و درمانگران تازه‌کار</strong> —
+          آموزش حضور درمان‌کننده برای رفع فاصله بین تکنیک‌های بافاصله و دور از ریشه‌ی مشکلات
+        </p>
+      </div>
+
+      <div class="course-item">
+        <span class="course-num">۳</span>
+        <p class="course-text">
+          <strong>فرزندپروری آگاهانه</strong> —
+          در راستای اثرگذاری مطلق والدین بر روان کودکان و نوجوانان؛ امانت و مسئولیت بزرگ آن‌ها
+          در پرورش یک هویت سالم
+        </p>
+      </div>
+
+      <div class="course-item">
+        <span class="course-num">۴</span>
+        <p class="course-text">
+          <strong>عموم افراد</strong> که از اضطراب، وسواس‌های فکری، تله‌های ذهنی نظیر کمال‌طلبی‌ها
+          و اهمال‌کاری‌ها، افسرده‌خویی و سردرگمی‌های مداوم، روابط چالشی و احساس فرسودگی می‌کنند
+        </p>
+      </div>
+
+      <div class="course-item">
+        <span class="course-num">۵</span>
+        <p class="course-text">
+          <strong>افراد گزینش‌شده در مسیر آگاهی عمیق</strong> —
+          زندگی در بعد روحی و انتخاب و اختیار کردنِ اجرای رسالت روحی و خویش‌کاری‌شان
+          در لحظات مختلف زندگی به جای تصمیمات ذهنی آلوده به زخم‌های روان و محدودیت‌های شرایطی
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- structure -->
+  <div class="card">
+    <p class="section-label">ساختار مشترک ۵ دوره آگاهی‌بخشی</p>
+    <p style="margin-bottom:4px;">
+      فرصتی برای همگان — نه برای انباشتن اطلاعات، بلکه برای ارتقای کیفیت زیست آگاهانه در نقش‌های زندگی.
+    </p>
+    <div class="structure-grid">
+      <div class="struct-box">
+        <div class="icon">🏛️</div>
+        <p><strong>حضوری</strong><br/>مرکز مشاوره صدرا</p>
+      </div>
+      <div class="struct-box">
+        <div class="icon">📅</div>
+        <p><strong>یک ماهه</strong><br/>۴ جلسه، هر هفته یک جلسه</p>
+      </div>
+      <div class="struct-box">
+        <div class="icon">⏱️</div>
+        <p><strong>۹۰ دقیقه</strong><br/>+ ۳۰ دقیقه پرسش و پاسخ</p>
+      </div>
+      <div class="struct-box">
+        <div class="icon">📝</div>
+        <p><strong>ارزیابی پایانی</strong><br/>هر سطح</p>
+      </div>
+    </div>
+    <div style="margin-top:22px;">
+      <p>
+        در صورت نیاز و مشاهده‌ی نیاز به تلاش بیشتر برای فرد، امکان تکرار دوره،
+        درخواست یک جلسه خصوصی با اینجانب یا مشاوره از افراد همگن و مطلع از مفهوم
+        یا انصراف از دوره اعمال خواهد شد.
+      </p>
+    </div>
+  </div>
+
+  <!-- closing quote -->
+  <div class="closing-quote">
+    <blockquote>
+      هیچ هدیه‌ای بالاتر از <span class="gold-text">نشاندن یک اثر عمیق در جان کسی</span> نیست.<br/>
+      این فراخوان هدیه‌ای از فضل خداوند به اینجانب
+      و هدیه‌ای از طرف من به شما
+      و هدیه‌ای از طرف شما به دیگران شایسته‌ای که می‌شناسید می‌باشد.
+    </blockquote>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta">
+    <h2>چگونه همراه شوید؟</h2>
+    <p>
+      اگر خود را سزاوار می‌دانید، نام و نام خانوادگی و دوره مورد نظر خود را پیامک کنید.<br/>
+      اگر دیگری شایسته‌ای می‌بینید، او را معرفی کنید.
+    </p>
+    <span class="cta-note">ثبت‌نام از طریق پیامک</span>
+  </div>
+
+  <!-- footer -->
+  <footer>
+    <div class="sig-line"></div>
+    <p><strong>سمانه حسینی</strong> — رواندرمانگر تحلیلی</p>
+  </footer>
+
+</div>
+</body>
+</html>
